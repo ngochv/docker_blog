@@ -1,2 +1,14 @@
 
+https://github.com/Cipfahim/Blog-System-in-Laravel
+
 User-roles: 1 - n
+
+## 2
+    php artisan make:controller Author/DashboardController
+    php artisan make:controller Admin/DashboardController
+    php artisan make:middleware  AdminMiddleware
+    php artisan make:middleware AuthorMiddleware
+
+    create view admin and author
+    edit route, controller, middleware, Redirect
+        redirect in middleware, Auth:login, register, resetPassword
