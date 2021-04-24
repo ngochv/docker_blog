@@ -1,6 +1,6 @@
 @extends('layouts.backend.app')
 
-@section('title','Tag Add')
+@section('title','Category Add')
 
 @push('css')
 @endpush
@@ -13,20 +13,25 @@
             <div class="card">
                 <div class="header">
                     <h2>
-                       ADD NEW TAG
+                       ADD NEW CATEGORY
                     </h2>
                 </div>
                 <div class="body">
-                    <form action="{{ route('admin.tag.store') }}" method="POST">
+                    <form action="{{ route('admin.category.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group form-float">
                             <div class="form-line">
                                 <input type="text" id="name" class="form-control" name="name" required>
-                                <label class="form-label">Tag Name</label>
+                                <label class="form-label">Category Name</label>
+                            </div>
+                        </div>
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input type="file" id="image" class="form-control" name="image" required>
                             </div>
                         </div>
 
-                        <a  class="btn btn-danger m-t-15 waves-effect" href="{{ route('admin.tag.index') }}">BACK</a>
+                        <a  class="btn btn-danger m-t-15 waves-effect" href="{{ route('admin.category.index') }}">BACK</a>
                         <button type="submit" class="btn btn-primary m-t-15 waves-effect">SUBMIT</button>
                     </form>
                 </div>

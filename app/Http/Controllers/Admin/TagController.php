@@ -70,7 +70,7 @@ class TagController extends Controller
     {
         $tag = Tag::find($id);
         if (!$tag) {
-            Toastr::error('Tag not exits', 'error');
+            Toastr::error('Not exists tag', 'error');
             return redirect()->route('admin.tag.index');
         }
         return view('admin.tag.edit', compact('tag'));

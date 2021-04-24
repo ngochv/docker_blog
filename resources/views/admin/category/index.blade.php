@@ -1,20 +1,29 @@
 @extends('layouts.backend.app')
 
-@section('title','Tag list')
+@section('title','Category list')
 
 @push('css')
     <!-- JQuery DataTable Css -->
     <link href="{{ asset('assets/backend/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css') }}" rel="stylesheet">
+    <style>
+        .col-image {
+            max-width: 100px;
+        }
+        .col-image img {
+            max-width: 80px;
+        }
+    </style>
 @endpush
 
 @section('content')
 <div class="container-fluid">
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <a class="btn btn-primary waves-effect mb-5" href="{{ route('admin.tag.create') }}">
+            <a class="btn btn-primary waves-effect mb-5" href="{{ route('admin.category.create') }}">
                 <i class="material-icons">add</i>
-                <span>Add New Tag</span>
+                <span>Add New Category</span>
             </a>
+            <br/>
             <br/>
             <div class="card">
                 <div class="header">
@@ -31,7 +40,7 @@
                         </li>
                     </ul>
                     <h3>
-                        All Tags
+                        All Category
                     </h3>
                 </div>
                 <div class="body">
@@ -40,6 +49,7 @@
                             <thead>
                                 <tr>
                                     <th>STT</th>
+                                    <th>Image</th>
                                     <th>Name</th>
                                     <th>Created At</th>
                                     <th>Update At</th>
@@ -47,21 +57,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (isset($tags) && $tags)
-                                    @foreach ($tags as $key => $tag)
+                                @if (isset($categories) && $categories)
+                                    @foreach ($categories as $key => $category)
                                         <tr>
                                             <td>{{ $key++ }}</td>
-                                            <td>{{ $tag->name }}</td>
-                                            <td>{{ $tag->created_at }}</td>
-                                            <td>{{ $tag->updated_at }}</td>
+                                            <td class="col-image">
+                                                <img src="{{ asset('storage/category/slider/' . $category->image) }}" alt="{{ $category->name }}">
+                                            </td>
+                                            <td>{{ $category->name }}</td>
+                                            <td>{{ $category->created_at }}</td>
+                                            <td>{{ $category->updated_at }}</td>
                                             <td>
-                                                <a href="{{ route('admin.tag.edit', $tag->id) }}" class="btn btn-info waves-effect">
+                                                <a href="{{ route('admin.category.edit', $category->id) }}" class="btn btn-info waves-effect">
                                                     <i class="material-icons">edit</i>
                                                 </a>
-                                                <button class="btn btn-danger waves-effect" type="button" onclick="deleteTag({{ $tag->id }})">
+                                                <button class="btn btn-danger waves-effect" type="button" onclick="deletedCategory({{ $category->id }})">
                                                     <i class="material-icons">delete</i>
                                                 </button>
-                                                <form id="delete-form-{{ $tag->id }}" action="{{ route('admin.tag.destroy', $tag->id) }}" method="POST" style="display: none;">
+                                                <form id="delete-form-{{ $category->id }}" action="{{ route('admin.category.destroy', $category->id) }}" method="POST" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
@@ -95,7 +108,7 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://unpkg.com/sweetalert2@7.19.1/dist/sweetalert2.all.js"></script>
     <script type="text/javascript">
-        function deleteTag(id) {
+        function deletedCategory(id) {
             swal({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
