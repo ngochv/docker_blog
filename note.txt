@@ -12,3 +12,9 @@ User-roles: 1 - n
     create view admin and author
     edit route, controller, middleware, Redirect
         redirect in middleware, Auth:login, register, resetPassword
+
+##4
+    php artisan make:model Tag -m
+    php artisan make:controller Admin/TagController -r
+    setup laravel Toastr // notifications
+    setup sweetalert2

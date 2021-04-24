@@ -27,6 +27,7 @@ Route::group([
     'middleware' => ['auth', 'admin']
     ], function () {
     Route::get('dashboard','DashboardController@index')->name('dashboard');
+    Route::resource('tag','TagController');
 });
 
 Route::group([
