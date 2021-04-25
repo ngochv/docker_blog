@@ -29,6 +29,7 @@ Route::group([
     Route::get('dashboard','DashboardController@index')->name('dashboard');
     Route::resource('tag','TagController');
     Route::resource('category','CategoryController');
+    Route::resource('post','PostController');
 });
 
 Route::group([

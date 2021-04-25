@@ -13,10 +13,10 @@ trait ImageTrait
      * [saveImage description]
      * @param  string  $folder
      * @param  object  $fileImage
-     * @param  boolean $resize
+     * @param  array $resize
      * @return string
      */
-    public function saveImage($folder, $fileImage, $resize = false)
+    public function saveImage($folder, $fileImage, $resize = [])
     {
         $currentDate = Carbon::now()->toDateString();
         $imagename = $currentDate . '-' . uniqid() . '.' . $fileImage->getClientOriginalExtension();
@@ -25,17 +25,11 @@ trait ImageTrait
             Storage::disk('public')->makeDirectory($folder);
         }
         if ($resize) {
-            //            resize image for category and upload
-            $category = Image::make($fileImage)->resize(1600, 479)->save();
-            Storage::disk('public')->put($folder . '/' . $imagename, $category);
-
-            //            check category slider dir is exists
-            if (!Storage::disk('public')->exists($folder . '/slider')) {
-                Storage::disk('public')->makeDirectory($folder . '/slider');
+            foreach($resize as $size => $path) {
+                $arrSize = explode(',', $size);
+                $category = Image::make($fileImage)->resize($arrSize[0], $arrSize[1])->save();
+                Storage::disk('public')->put($path . '/' . $imagename, $category);
             }
-            //            resize image for category slider and upload
-            $slider = Image::make($fileImage)->resize(500, 333)->save();
-            Storage::disk('public')->put($folder . '/slider/' . $imagename, $slider);
         } else {
             $img = Image::make($fileImage)->save();
             Storage::disk('public')->put($folder . '/' . $imagename, $img);
@@ -48,30 +42,39 @@ trait ImageTrait
      * @param  string  $nameImgOld
      * @param  string  $folder
      * @param  object  $fileImage
-     * @param  boolean $resize
+     * @param  array $resize
      * @return string
      */
-    public function updateImage($nameImgOld, $folder, $fileImage, $resize = false)
+    public function updateImage($nameImgOld, $folder, $fileImage, $resize = [])
     {
-
-        $this->deletedImage($nameImgOld, $folder);
+        if ($nameImgOld != 'default.png') {
+            if ($resize) {
+                $this->deletedImage($nameImgOld, $resize);
+            } else {
+                $this->deletedImage($nameImgOld, $folder);
+            }
+        }
         return $this->saveImage($folder, $fileImage, $resize);
     }
 
     /**
      * delted image by name image
      * @param  string  $nameImag
-     * @param  string  $folder
+     * @param  string|array  $path
      * @return void
      */
-    public function deletedImage($nameImg, $folder)
+    public function deletedImage($nameImg, $path)
     {
-        if (Storage::disk('public')->exists($folder . '/' . $nameImg)) {
-            Storage::disk('public')->delete($folder . '/' . $nameImg);
-        }
-
-        if (Storage::disk('public')->exists($folder . '/slider/' . $nameImg)) {
-            Storage::disk('public')->delete($folder . '/slider/' . $nameImg);
+        if (is_array($path)) {
+            foreach ($path as $key => $item) {
+                if (Storage::disk('public')->exists($item . '/' . $nameImg)) {
+                    Storage::disk('public')->delete($item . '/' . $nameImg);
+                }
+            }
+        } else {
+            if (Storage::disk('public')->exists($path . '/' . $nameImg)) {
+                Storage::disk('public')->delete($path . '/' . $nameImg);
+            }
         }
         return;
     }

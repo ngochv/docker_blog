@@ -51,6 +51,7 @@
                                     <th>STT</th>
                                     <th>Image</th>
                                     <th>Name</th>
+                                    <th>Post count</th>
                                     <th>Created At</th>
                                     <th>Update At</th>
                                     <th></th>
@@ -65,6 +66,7 @@
                                                 <img src="{{ asset('storage/category/slider/' . $category->image) }}" alt="{{ $category->name }}">
                                             </td>
                                             <td>{{ $category->name }}</td>
+                                            <td>{{ $category->posts->count() }}</td>
                                             <td>{{ $category->created_at }}</td>
                                             <td>{{ $category->updated_at }}</td>
                                             <td>

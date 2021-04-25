@@ -24,7 +24,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::latest()->get();
+        $categories = Category::latest()->with('posts')->get();
         return view('admin.category.index', compact('categories'));
     }
 
@@ -57,14 +57,14 @@ class CategoryController extends Controller
         DB::beginTransaction();
         try {
             if (isset($image)) {
-                $imagename = $this->saveImage($this->folderImgCate, $image, true);
+                $imageName = $this->saveImage($this->folderImgCate, $image, $this->getSizeImage());
             } else {
-                $imagename = "default.png";
+                $imageName = "default.png";
             }
             $category = new Category();
             $category->name = $request->name;
             $category->slug = $slug;
-            $category->image = $imagename;
+            $category->image = $imageName;
             $category->save();
             DB::commit();
 
@@ -131,8 +131,8 @@ class CategoryController extends Controller
                 return redirect()->route('admin.category.index');
             }
             if (isset($image)) {
-                $imagename = $this->updateImage($category->image, $this->folderImgCate, $image, true);
-                $category->image = $imagename;
+                $imageName = $this->updateImage($category->image, $this->folderImgCate, $image, $this->getSizeImage());
+                $category->image = $imageName;
             }
             $category->name = $request->name;
             $category->slug = $slug;
@@ -170,7 +170,7 @@ class CategoryController extends Controller
             $category->delete();
             DB::commit();
 
-            Toastr::success('Category Successfully delted', 'Success');
+            Toastr::success('Category Successfully Deleted', 'Success');
             return redirect()->route('admin.category.index');
         } catch (Exception $ex) {
             Log::info($ex);
@@ -178,5 +178,18 @@ class CategoryController extends Controller
             Toastr::error('System error. Please try again later', 'error');
             return redirect()->route('admin.category.index');
         }
+    }
+
+    /**
+     * get resize for save image category
+     *
+     * @return array
+     */
+    public function getSizeImage()
+    {
+        return [
+            '1600,479' => $this->folderImgCate,
+            '500,333' => $this->folderImgCate . '/slider',
+        ];
     }
 }
