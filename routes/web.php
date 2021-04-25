@@ -30,6 +30,9 @@ Route::group([
     Route::resource('tag','TagController');
     Route::resource('category','CategoryController');
     Route::resource('post','PostController');
+
+    Route::get('/pending/post','PostController@pending')->name('post.pending');
+    Route::put('/post/{id}/approve','PostController@approval')->name('post.approve');
 });
 
 Route::group([
@@ -39,4 +42,5 @@ Route::group([
     'middleware' => ['auth', 'author']
     ], function () {
     Route::get('dashboard','DashboardController@index')->name('dashboard');
+    Route::resource('post','PostController');
 });

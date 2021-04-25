@@ -33,3 +33,6 @@ User-roles: 1 - n
 
 ##7
     php artisan make:controller Admin/PostController --model=Post
+
+##8
+    php artisan make:controller Author/PostController --model=Post

@@ -1,34 +1,37 @@
 @extends('layouts.backend.app')
 
-@section('title', 'Post Add')
+@section('title', 'Post Update')
 
-@push('css')
-    <!-- Bootstrap Select Css -->
-    <link href="{{ asset('assets/backend/plugins/bootstrap-select/css/bootstrap-select.css') }}" rel="stylesheet" />
-    <style>
-        .dropdown-menu {
-            padding-left: 40px;
-        }
-    </style>
-@endpush
+    @push('css')
+        <!-- Bootstrap Select Css -->
+        <link href="{{ asset('assets/backend/plugins/bootstrap-select/css/bootstrap-select.css') }}" rel="stylesheet" />
+        <style>
+            .dropdown-menu {
+                padding-left: 40px;
+            }
+
+        </style>
+    @endpush
 
 @section('content')
     <div class="container-fluid">
         <!-- Vertical Layout | With Floating Label -->
-        <form action="{{ route('admin.post.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('author.post.update', $post->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
             <div class="row clearfix">
                 <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
                             <h2>
-                                ADD NEW POST
+                                UPDATE NEW POST
                             </h2>
                         </div>
                         <div class="body">
                             <div class="form-group form-float">
                                 <div class="form-line">
-                                    <input type="text" id="title" class="form-control" name="title">
+                                    <input type="text" id="title" class="form-control" name="title"
+                                        value="{{ $post->title }}">
                                     <label class="form-label">Post Title</label>
                                 </div>
                             </div>
@@ -39,7 +42,8 @@
                             </div>
 
                             <div class="form-group">
-                                <input type="checkbox" id="publish" class="filled-in" name="status" value="1">
+                                <input type="checkbox" id="publish" class="filled-in" name="status" value="1"
+                                    {{ $post->status == true ? 'checked' : '' }}>
                                 <label for="publish">Publish</label>
                             </div>
 
@@ -60,7 +64,8 @@
                                     <select name="categories[]" id="category" class="form-control show-tick"
                                         data-live-search="true" multiple>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            <option @foreach ($post->categories as $postCategory) {{ $postCategory->id == $category->id ? 'selected' : '' }} @endforeach value="{{ $category->id }}">{{ $category->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -72,15 +77,16 @@
                                     <select name="tags[]" id="tag" class="form-control show-tick" data-live-search="true"
                                         multiple>
                                         @foreach ($tags as $tag)
-                                            <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                            <option @foreach ($post->tags as $postTag) {{ $postTag->id == $tag->id ? 'selected' : '' }} @endforeach value="{{ $tag->id }}">{{ $tag->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
 
                             <a class="btn btn-danger m-t-15 waves-effect"
-                                href="{{ route('admin.post.index') }}">BACK</a>
-                            <button type="submit" class="btn btn-primary m-t-15 waves-effect">SUBMIT</button>
+                                href="{{ route('author.category.index') }}">BACK</a>
+                            <button type="submit" class="btn btn-primary m-t-15 waves-effect">UPDATE</button>
 
                         </div>
                     </div>
@@ -95,7 +101,7 @@
                             </h2>
                         </div>
                         <div class="body">
-                            <textarea id="tinymce" name="body"></textarea>
+                            <textarea id="tinymce" name="body">{{ $post->body }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -110,7 +116,7 @@
     <script src="{{ asset('assets/backend/plugins/tinymce/tinymce.js') }}"></script>
 
     <script>
-        $(function () {
+        $(function() {
             //TinyMCE
             tinymce.init({
                 selector: "textarea#tinymce",
@@ -129,5 +135,6 @@
             tinymce.suffix = ".min";
             tinyMCE.baseURL = '{{ asset('assets/backend/plugins/tinymce') }}';
         });
+
     </script>
 @endpush

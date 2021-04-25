@@ -2,27 +2,20 @@
 
 @section('title', 'Post')
 
-    @push('css')
+@push('css')
 
-    @endpush
+@endpush
 
 @section('content')
     <div class="container-fluid">
         <!-- Vertical Layout | With Floating Label -->
-        <a href="{{ route('admin.post.index') }}" class="btn btn-danger waves-effect">BACK</a>
-        @if ($post->is_approved == false)
-            <button type="button" class="btn btn-success waves-effect pull-right"
-                onclick="approvePost({{ $post->id }})">
-                <i class="material-icons">done</i>
-                <span>Approve</span>
+        <a href="{{ route('author.post.index') }}" class="btn btn-danger waves-effect">BACK</a>
+        @if($post->is_approved == false)
+            <button type="button" class="btn btn-danger waves-effect pull-right" disabled>
+                <span>Pending</span>
             </button>
-            <form method="post" action="{{ route('admin.post.approve', $post->id) }}" id="approval-form"
-                style="display: none">
-                @csrf
-                @method('PUT')
-            </form>
         @else
-            <button type="button" class="btn btn-success pull-right" disabled>
+            <button type="button" class="btn btn-success waves-effect pull-right" disabled>
                 <i class="material-icons">done</i>
                 <span>Approved</span>
             </button>
@@ -76,8 +69,8 @@
                         </h2>
                     </div>
                     <div class="body">
-                        <img class="img-responsive thumbnail" src="{{ asset('storage/post/' . $post->image) }}"
-                            alt="{{ $post->image }}">
+                        <img class="img-responsive thumbnail"
+                            src="{{ asset('storage/post/' . $post->image) }}" alt="{{ $post->image }}">
                     </div>
                 </div>
 
