@@ -8,7 +8,6 @@ use Intervention\Image\Facades\Image;
 
 trait ImageTrait
 {
-
     /**
      * [saveImage description]
      * @param  string  $folder
@@ -19,22 +18,26 @@ trait ImageTrait
     public function saveImage($folder, $fileImage, $resize = [])
     {
         $currentDate = Carbon::now()->toDateString();
-        $imagename = $currentDate . '-' . uniqid() . '.' . $fileImage->getClientOriginalExtension();
-        //            check category dir is exists
-        if (!Storage::disk('public')->exists($folder)) {
-            Storage::disk('public')->makeDirectory($folder);
-        }
-        if ($resize) {
+        $extension = $fileImage->getClientOriginalExtension();
+        $imageName = $currentDate . '-' . uniqid() . '.' . $extension;
+        $fullPathOrg = $fileImage->getRealPath();
+
+        if (in_array($extension, ['jpg', 'jpeg', 'png', 'bmp'])) {
             foreach($resize as $size => $path) {
+                if (!Storage::disk('public')->exists($path)) {
+                    Storage::disk('public')->makeDirectory($path, 0777);
+                }
                 $arrSize = explode(',', $size);
-                $category = Image::make($fileImage)->resize($arrSize[0], $arrSize[1])->save();
-                Storage::disk('public')->put($path . '/' . $imagename, $category);
+                Image::make($fullPathOrg)->resize($arrSize[0], $arrSize[1])->save(storage_path("app/public/$path/$imageName")); //The default value is 90
             }
         } else {
-            $img = Image::make($fileImage)->save();
-            Storage::disk('public')->put($folder . '/' . $imagename, $img);
+            if (!Storage::disk('public')->exists($folder)) {
+                Storage::disk('public')->makeDirectory($folder, 0777);
+            }
+            Storage::disk('public')->put($folder . '/' . $imageName, file_get_contents($fullPathOrg));
         }
-        return $imagename;
+
+        return $imageName;
     }
 
     /**
