@@ -2,7 +2,6 @@
 
 namespace App\Http\Traits;
 
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -17,9 +16,8 @@ trait ImageTrait
      */
     public function saveImage($folder, $fileImage, $resize = [])
     {
-        $currentDate = Carbon::now()->toDateString();
         $extension = $fileImage->getClientOriginalExtension();
-        $imageName = $currentDate . '-' . uniqid() . '.' . $extension;
+        $imageName = date("Y-m-d") . '-' . uniqid() . '.' . $extension;
         $fullPathOrg = $fileImage->getRealPath();
 
         if (in_array($extension, ['jpg', 'jpeg', 'png', 'bmp'])) {

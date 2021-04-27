@@ -45,13 +45,15 @@ User-roles: 1 - n
     php artisan make:notification AuthorPostApproved
     using The Notifiable Trait in user model
 
-##11 
+##11
     php artisan make:notification NewPostNotify
     use On-Demand Notifications
-    
+
 ##12
     php artisan queue:table
     php artisan migrate
     config QUEUE_CONNECTION in .env (QUEUE_CONNECTION=database)
     php artisan queue:work
         để chạy các notification trong table jobs
+##13
+    Working with Home Page
