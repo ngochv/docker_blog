@@ -39,3 +39,8 @@ User-roles: 1 - n
 
 ##9
     php artisan make:notification NewAuthorPost
+    Using The Notification Facade
+
+##10
+    php artisan make:notification AuthorPostApproved
+    using The Notifiable Trait in user model

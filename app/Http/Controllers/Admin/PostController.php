@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\ImageTrait;
+use App\Notifications\AuthorPostApproved;
 use App\Post;
+use App\Subscriber;
 use App\Tag;
 use Brian2694\Toastr\Facades\Toastr;
 use Exception;
@@ -222,6 +224,7 @@ class PostController extends Controller
         if ($post->is_approved == false) {
             $post->is_approved = true;
             $post->save();
+            $post->user->notify(new AuthorPostApproved($post));
 
             Toastr::success('Post Successfully Approved', 'Success');
         } else {
