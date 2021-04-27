@@ -44,3 +44,7 @@ User-roles: 1 - n
 ##10
     php artisan make:notification AuthorPostApproved
     using The Notifiable Trait in user model
+
+##11 
+    php artisan make:notification NewPostNotify
+    use On-Demand Notifications
