@@ -36,3 +36,6 @@ User-roles: 1 - n
 
 ##8
     php artisan make:controller Author/PostController --model=Post
+
+##9
+    php artisan make:notification NewAuthorPost
