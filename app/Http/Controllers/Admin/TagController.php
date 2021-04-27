@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Tag;
 use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Http\Request;
 
 class TagController extends Controller
 {

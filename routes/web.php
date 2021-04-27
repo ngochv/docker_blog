@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::post('subscriber','SubscriberController@store')->name('subscriber.store');
 
 Route::group([
     'as' => 'admin.',
@@ -33,6 +34,9 @@ Route::group([
 
     Route::get('/pending/post','PostController@pending')->name('post.pending');
     Route::put('/post/{id}/approve','PostController@approval')->name('post.approve');
+    
+    Route::get('/subscriber','SubscriberController@index')->name('subscriber.index');
+    Route::delete('/subscriber/{subscriber}','SubscriberController@destroy')->name('subscriber.destroy');
 });
 
 Route::group([

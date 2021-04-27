@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Category;
-use App\Post;
-use App\Tag;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\ImageTrait;
+use App\Post;
+use App\Tag;
 use Brian2694\Toastr\Facades\Toastr;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Exception;
 
 class PostController extends Controller
 {

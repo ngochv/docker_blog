@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Category;
-use App\Http\Traits\ImageTrait;
 use App\Http\Controllers\Controller;
+use App\Http\Traits\ImageTrait;
 use Brian2694\Toastr\Facades\Toastr;
 use Exception;
 use Illuminate\Http\Request;
